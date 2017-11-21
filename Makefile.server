@@ -5,7 +5,7 @@ inventory = server
 WORK_DIR=`pwd`
 DOCKER_REGISTRY="85.25.226.182:5000"
 
-all: ansible-site
+all: ansible-base docker-build ansible-site
 
 ansible-base:
 	@echo "Running ansible playbooks: base + registry"
