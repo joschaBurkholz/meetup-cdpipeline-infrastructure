@@ -1,0 +1,7 @@
+- hosts: nexus
+  become: true
+  environment: "{{ proxy_env|default({}) }}"
+  roles:
+    - { role: unix_users, _unix: "{{ nexus_default }}" }
+    - { role: docker_network, _docker_network: "{{ docker_network_default }}" }
+    - { role: nexus, _nexus: "{{ nexus }}" }

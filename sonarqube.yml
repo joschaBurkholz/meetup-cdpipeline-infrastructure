@@ -1,0 +1,9 @@
+- hosts: sonarqube
+  become: true
+  environment: "{{ proxy_env|default({}) }}"
+  roles:
+    - { role: unix_users, _unix: "{{ postgres_default }}" }
+    - { role: unix_users, _unix: "{{ sonarqube_default }}" }
+    - { role: docker_network, _docker_network: "{{ docker_network_default }}" }
+    - { role: postgres, _postgres: "{{ postgres }}" }
+    - { role: sonarqube, _sonarqube: "{{ sonarqube }}" }

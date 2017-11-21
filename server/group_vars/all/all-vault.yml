@@ -1,0 +1,2 @@
+vault_ldap:
+  bind_password: "secret"

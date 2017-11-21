@@ -1,0 +1,26 @@
+sonarqube:
+  name: "sonar"
+  data_directory: "/opt/docker/sonarqube"
+  image: "{{ docker.registry }}/sonarqube"
+  version: latest
+  environment:
+    SONARQUBE_JDBC_USERNAME: "sonar"
+    SONARQUBE_JDBC_PASSWORD: "sonar"
+    SONARQUBE_JDBC_URL: "jdbc:postgresql://sonar-postgres:5432/sonar"
+  postgres:
+    jdbcurl: "jdbc:postgresql://postgres:5432/sonar"
+    username: "sonar"
+    password: "sonar"
+
+postgres:
+  name: "sonar-postgres"
+  data_directory: "/opt/docker/postgres/prod/sonar-postgres"
+  image: postgres
+  version: latest
+  exposed_port: "5432"
+  ports: "5432:5432"
+  environment:
+    POSTGRES_DB: sonar
+    POSTGRES_USER: sonar
+    POSTGRES_PASSWORD: sonar
+    PGDATA: /var/lib/postgresql/prod/sonar-postgres/data

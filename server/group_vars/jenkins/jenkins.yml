@@ -1,0 +1,36 @@
+jenkins:
+  data_directory: "/opt/docker/jenkins"
+  image: "{{ docker.registry }}/jenkins-master"
+  version: latest
+  docker_gid: 13080
+  deployment_user: ansible
+  base_url: "http://{{ jenkins_host }}"
+  admin_email: "jenkins@joscha-burkholz.de"
+  environment:
+    JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=Europe/Paris -Dfile.encoding=UTF-8 -Dhudson.model.ParametersAction.keepUndefinedParameters=true -Dhudson.model.DirectoryBrowserSupport.CSP="
+    JENKINS_OPTS: "--sessionTimeout=10080"
+    DOCKER_REGISTRY: "{{ docker.registry }}"
+    ADMIN_EMAIL: "jenkins@joscha-burkholz.de"
+  nexus:
+    username: "admin"
+    password: "{{ vault_jenkins.nexus.password }}"
+    url: "http://{{ nexus_host }}/content/groups/public"
+  sonarqube:
+    url: "http://{{ sonarqube_host }}"
+  git:
+    public_key:
+      filename: git.pub
+      value: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1IixtnooYZ840fzxBXqRcB691KR0XUe/3A+OwaxQUjq+V1D+VJpXxB0LT3vzlai2py7Q8wY5mUGbXt2Knb1WADWhNBvDMM9Jj27DxZ5ts1qPV6l+wnp/6MG1SbE3nRrMGKuy/5p4QuPy/yEHhmQR0rNGU65F8romkFxYCM8qi0evhuV1tWD95vSUawHMCCfhJ60mMs2xTINj01hRY9qcl+XLLtmxEGMy5h58rHnAKsPAhT7wuO6h90xv/wldb3D2Ek66yYMw9KdpTA/0GGw15YKsV1ywIjE4vjM2McC3yg5tTDVJzmbDwtocSlQl9MZrO0CW/y5IVizIsX/TaPah2+shiIz+PiAEMQtB+6TJYfKNA2hJXNMo40Qwy5Mz66/tdV4y0zWZDEPo5h6+y16LWdcytoBJDBd/thw0z14m9sU23c8K/La7CjcwZ2ArAJ1x+5Hxf3Hf53m2TGNkgijqZlhwgFaIKFGMxybvw5uGfBkRx6z4BH0ugr5rfFCshguUBkfBB1vY0m2Ujt1xbWHOK0rurEP8p0ND2PoF1LtaQu+p6nVorB6BENaokBss4TRBUys+DMOd13y0gohFUG8cau+xrrkCWHcRZZI0dIcVDCRXU4Ah0hfdPeGi+rCA+4mhlslI3K6QE6UORxqJJuvh7Ki9yukrDg/Zr7YJSUqWU/w== jenkins@github.com"
+    private_key:
+      filename: git
+      value: "{{ vault_jenkins.git.private_key }}"
+  ansible:
+    public_key:
+      filename: ansible.pub
+      value: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDam0/hAxrkmJrHgmM1+G7tEsWDvOliS43TthiByOdRW3OAHzqmP08Ae9RYZADf9afOOlJQUL+hz0jLp4/4KD7E/Kl5cuRCPpB8QTfoAX3MNmNlj+uvgpCiGSnHHU5lw/3+hAEAVcEq+W7Y72ukMd1yWJN2kCBwBNHfxZy3+dkEzf6jaOzle2eY39K3QYRgCIQSG0vsJTgKYjtz7jC4DqWh6dYPEwv34FvvQwfkIo2+L7w1K9AGXtZjZqWE/QSc5dvp61Fy3gNEMFIFz8RS00sOIqHtY39f2pdB/9EqBlpiJB5OWCugY4bDtk5wPDoSORZjfgQ7GQH8ur1EVmkvQUav joschaburkholz@AppleSucks"
+    private_key:
+      filename: ansible
+      value: "{{ vault_jenkins.ansible.private_key }}"
+  jobdsl:
+    credentials_id: "github_ssh_keys"
+    git_url: "git@github.com:joschaBurkholz/meetuo-cdpipeline-jenkins-job-dsl.git"

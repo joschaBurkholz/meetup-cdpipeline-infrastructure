@@ -1,0 +1,7 @@
+- hosts: jenkins
+  become: true
+  environment: "{{ proxy_env|default({}) }}"
+  roles:
+    - { role: unix_users, _unix: "{{ jenkins_default }}" }
+    - { role: docker_network, _docker_network: "{{ docker_network_default }}" }
+    - { role: jenkins, _jenkins: "{{ jenkins }}" }

@@ -1,0 +1,6 @@
+- hosts: openldap
+  become: true
+  environment: "{{ proxy_env|default({}) }}"
+  roles:
+    - { role: docker_network, _docker_network: "{{ docker_network_default }}" }
+    - { role: openldap, _openldap: "{{ openldap }}" }

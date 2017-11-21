@@ -1,0 +1,20 @@
+registry_host: "{{ groups['registry'][0] }}"
+sonarqube_host: "{{ groups['sonarqube'][0] }}"
+nexus_host: "{{ groups['nexus'][0] }}"
+jenkins_host: "{{ groups['jenkins'][0] }}"
+
+ldap:
+  label: "Example LDAP"
+  server: "{{ nexus_host }}"
+  root_dn: "dc=example,dc=de"
+  user_search_base: "ou=People"
+  group_search_base: "ou=Groups"
+  user_search: "uid"
+  bind_user: "cn=admin,dc=example,dc=de"
+  bind_password: "{{ vault_ldap.bind_password }}"
+  
+docker:
+  registry: "{{ registry_host }}:5000"
+  version: "1.12.3-0~{{ ansible_lsb.codename|lower }}"
+  default_registry: "--add-registry {{ registry_host }}:5000"
+  insecure_registry: "--insecure-registry {{ registry_host }}:5000"

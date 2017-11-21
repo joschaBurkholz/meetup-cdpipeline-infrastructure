@@ -1,0 +1,6 @@
+- hosts: registry
+  become: true
+  environment: "{{ proxy_env|default({}) }}"
+  roles:
+    - { role: unix_users, _unix: "{{ registry_default }}" }
+    - { role: registry, _registry: "{{ registry }}" }

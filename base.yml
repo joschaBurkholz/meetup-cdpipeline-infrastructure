@@ -1,0 +1,5 @@
+- hosts: cdpipeline
+  become: true
+  environment: "{{ proxy_env|default({}) }}"
+  roles:
+    - { role: docker, _docker: "{{ docker }}" }

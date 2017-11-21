@@ -1,0 +1,6 @@
+nexus:
+  data_directory: "/opt/docker/nexus"
+  image: "{{ docker.registry }}/nexus"
+  version: latest
+  environment:
+    NEXUS_BASE_URL: http://{{ nexus_host }}/

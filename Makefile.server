@@ -1,0 +1,29 @@
+remote_user = ansible
+ssh_key_name = ~/.ssh/joscha/ansible
+inventory = server
+
+WORK_DIR=`pwd`
+DOCKER_REGISTRY="85.25.226.182:5000"
+
+all: ansible-site
+
+ansible-base:
+	@echo "Running ansible playbooks: base + registry"
+	ansible-playbook base.yml; \
+	ansible-playbook registry.yml \
+
+docker-build:
+	@echo "Building all Docker Images"
+	for PROJECT in jre jdk jenkins nexus openldap sonarqube; do \
+		echo $${PROJECT}; \
+		cd ${WORK_DIR}/../meetup-cdpipeline-docker-$${PROJECT}; \
+		docker build -t $${PROJECT} . ; \
+		docker tag $${PROJECT} ${DOCKER_REGISTRY}/$${PROJECT}; \
+		docker push ${DOCKER_REGISTRY}/$${PROJECT}; \
+	done
+
+ansible-site:
+	@echo "Running ansible playbook: openldap and site"
+	ansible-playbook openldap.yml; \
+	ansible-playbook site.yml
+
