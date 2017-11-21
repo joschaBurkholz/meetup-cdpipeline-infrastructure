@@ -33,4 +33,4 @@ jenkins:
       value: "{{ vault_jenkins.ansible.private_key }}"
   jobdsl:
     credentials_id: "github_ssh_keys"
-    git_url: "git@github.com:joschaBurkholz/meetuo-cdpipeline-jenkins-job-dsl.git"
+    git_url: "git@github.com:joschaBurkholz/meetup-cdpipeline-jenkins-job-dsl.git"
