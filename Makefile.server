@@ -5,7 +5,7 @@ inventory = server
 WORK_DIR=`pwd`
 DOCKER_REGISTRY="85.25.226.182:5000"
 
-all: ansible-base docker-build ansible-site
+all: ansible-site
 
 ansible-base:
 	@echo "Running ansible playbooks: base + registry"
@@ -14,7 +14,7 @@ ansible-base:
 
 docker-build:
 	@echo "Building all Docker Images"
-	for PROJECT in jre jdk jenkins nexus openldap sonarqube; do \
+	for PROJECT in jenkins-master; do \
 		echo $${PROJECT}; \
 		cd ${WORK_DIR}/../meetup-cdpipeline-docker-$${PROJECT}; \
 		docker build -t $${PROJECT} . ; \
@@ -24,6 +24,6 @@ docker-build:
 
 ansible-site:
 	@echo "Running ansible playbook: openldap and site"
-	ansible-playbook openldap.yml; \
-	ansible-playbook site.yml
+	//ansible-playbook openldap.yml; \
+	ansible-playbook jenkins.yml
 

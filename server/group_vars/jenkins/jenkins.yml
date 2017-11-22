@@ -14,9 +14,9 @@ jenkins:
   nexus:
     username: "admin"
     password: "{{ vault_jenkins.nexus.password }}"
-    url: "http://{{ nexus_host }}/content/groups/public"
+    url: "http://{{ nexus_host }}:8081/content/groups/public"
   sonarqube:
-    url: "http://{{ sonarqube_host }}"
+    url: "http://{{ sonarqube_host }}:9000"
   git:
     public_key:
       filename: git.pub
